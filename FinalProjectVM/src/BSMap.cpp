@@ -113,7 +113,7 @@ void BSMap::printMap(Dungeon *temp)//working
 void BSMap::moveChar()
 {
     cout<<"Which dungeon would you like to go to?"<<endl;
-    cout<<"the following dungeons are accessible:"<<endl;
+    cout<<"The following dungeons are accessible:"<<endl;
 
     avalibleMoves();//gets vectors that have either finished parents or null parents
     for(int i=0;i<moves.size();i++)
@@ -122,8 +122,14 @@ void BSMap::moveChar()
     }
     cout<<"Which dungeon would you like to visit? Enter a number!"<<endl;
     string choices="";
+    int choice =-1;
     getline(cin,choices);
-    int choice=atoi(choices.c_str());
+    choice=atoi(choices.c_str());
+    while(choice<0||choice>=moves.size()){
+        cout<<"Please make a valid choice!"<<endl;
+        getline(cin,choices);
+        choice=atoi(choices.c_str());
+    }
     pos=moves[choice];
     cout<<"You are now at the dungeon "<<pos->name<<endl;
 
@@ -135,6 +141,8 @@ void BSMap::moveChar()
     choice=0;
     while(choice!=2)
     {
+        if(player->hp<=0)
+            return;
         cout<<"Do you wish to enter?"<<endl;
         cout<<"1: Enter the Dungeon"<<endl;
         cout<<"2: Return to Main Menu"<<endl;
@@ -154,7 +162,7 @@ void BSMap::moveChar()
                 }
                 else
                 {
-                    cout<<"This is family home. No adventuring to be made"<<endl;
+                    cout<<"This is Family Home. There are no adventures to be had here!"<<endl;
                     cout<<"Returning to Main Menu!"<<endl;
                     choice=2;
                 }
@@ -167,8 +175,7 @@ void BSMap::moveChar()
                 break;
         }
     }
-     if(player->hp<=0)
-            return;
+
 }
 
 void BSMap::avalibleMoves()//shows possible moves to only those that are next to completed dungeons
@@ -207,7 +214,7 @@ void BSMap::dungeonMenu()
     {
         cout<<"you are in the dungeon! What will you do?"<<endl;
         cout<<"1. Fight a level"<<endl;
-        cout<<"2. heal wounds"<<endl;
+        cout<<"2. Heal wounds"<<endl;
         cout<<"3. Dungeon Information"<<endl;
         cout<<"4. Leave Dungeon"<<endl;
 
@@ -228,10 +235,10 @@ void BSMap::dungeonMenu()
                 dungeonInfo(pos);
                 break;
             case 4:
-                cout<<"you leave the dungeon and are now at its entrance."<<endl;
+                cout<<"You leave the dungeon and are now at its entrance."<<endl;
                 break;
             default:
-                cout<<"Danger will robinson danger! This was not a valid input! try again."<<endl;
+                cout<<"Danger Will Robinson danger! This was not a valid input! try again."<<endl;
                 break;
         }
         if(pos->finished==true)
@@ -283,7 +290,7 @@ void BSMap::levelDelete(Dungeon *hold)//needs testing
     levels *temp=hold->start;
     hold->start=hold->start->next;
     delete temp;
-    cout<<"current level has been defeated! The area suddenly disappears. You enter are outside the dungeon, but it looks to me smaller now."<<endl;
+    cout<<"All of the monsters on the current level have been defeated! The level suddenly disappears. You are now outside the dungeon, but it appears smaller now..."<<endl;
 }
 
 void BSMap::charInfo()
@@ -379,6 +386,11 @@ std::vector<monster*> BSMap::damageTurns(int playerDam,vector<monster*> mons)
         int moni=0;
         getline(cin,mon);
         moni=atoi(mon.c_str());
+        while(moni<0||moni>=mons.size()){
+            cout<<"Enter a valid choice!"<<endl;
+            getline(cin,mon);
+            moni=atoi(mon.c_str());
+        }
         int dam=(playerDam)-(mons[moni]->def);
         cout<<"You did "<<dam<<" damage!"<<endl;
         mons[moni]->hp=(mons[moni]->hp)-(dam);
@@ -412,7 +424,7 @@ void BSMap::combat()
 {
     cout<<endl;
     cout<<"You enter the level and encounter "<<pos->start->monsters<<" monsters!"<<endl;
-    cout<<"you sneak up and get first action!"<<endl;
+    cout<<"You sneak up and get the first action!"<<endl;
     vector<monster*> mons;
 
     for(int i=0;i<pos->start->monsters;i++)
