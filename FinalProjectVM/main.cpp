@@ -10,16 +10,16 @@ int main()
     string response="";
     int choice=0;
     cout<<"You begin your quest for fame and fortune!"<<endl;
-    cout<<"You heard rumor of treasure and glory to be had in the dungeons"<<endl;
-    cout<<"You grab the gear your family owns and set out"<<endl;
+    cout<<"You heard rumor of treasure and glory to be found in the dungeons"<<endl;
+    cout<<"You grab your family gear and set out"<<endl;
     cout<<"=============================================="<<endl;
-    cout<<"begin a new adventure? hit 1"<<endl;
+    cout<<"Enter 1 to begin your adventure!"<<endl;
 
     getline(cin,response);
     if(response=="1")
         start=true;
     else
-        cout<<"Game has been turned off! No adventure started!"<<endl;
+        cout<<"Game has been quit! No adventure started!"<<endl;
 
     BSMap *world=new BSMap();//start new character here / set world map / set dungeon layout
     while(start)
@@ -42,7 +42,7 @@ int main()
                 break;
             case 3:
                 start=false;
-                cout<<"Game has been turned off! Restart program to play again!"<<endl;
+                cout<<"Game has been turned off! Restart the program if you want to play again!"<<endl;
                 break;
             default:
                 cout<<"Not a valid selection! Please enter a number from the list provided"<<endl;
